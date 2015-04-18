@@ -1,0 +1,22 @@
+#ingredients{
+	padding: 5px;
+	width: 150px;
+}
+.ingredient img{
+	position:relative;
+	border: solid 2px orange;
+	padding: 5px;
+	margin: 5px;
+}
+.ingredient img:hover{
+	border: solid 2px black;
+}
+
+#details {
+	position:absolute;
+	bottom: 0px;
+	border: solid 2px gray;
+	padding: 5px;
+	margin: 5px;
+	width: 100%;
+}
