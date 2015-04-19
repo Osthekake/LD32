@@ -1,15 +1,19 @@
+body{
+	background-color:black;
+	color:white;
+}
+
 #ingredients{
 	padding: 5px;
 	width: 150px;
 }
 .ingredient img{
 	position:relative;
-	border: solid 2px orange;
-	padding: 5px;
+	border: solid 5px orange;
 	margin: 5px;
 }
 .ingredient img:hover{
-	border: solid 2px black;
+	border: solid 5px lightblue;
 }
 
 #details {
@@ -19,4 +23,52 @@
 	padding: 5px;
 	margin: 5px;
 	width: 100%;
+}
+
+#schematic {
+	position:absolute;
+	right: 0px;
+	top: 0px;
+	border: solid 2px gray;
+	padding: 5px;
+	margin: 5px;
+	width: 400px;
+	height: 500px;
+}
+#schematic button{
+	display:inline;
+	position:absolute;
+	bottom: 0px;
+}
+
+.slot {
+	border: solid 2px gray;
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	right:130px;
+}
+
+.slot-head {
+	top: 70px;
+}
+
+.slot-shaft {
+	top: 220px;	
+}
+
+.slot-blade {
+	top: 70px;
+}
+
+.slot-guard {
+	top: 220px;	
+}
+
+.slot-chain {
+	top: 220px;	
+}
+
+.slot-grip {
+	top: 370px;	
 }

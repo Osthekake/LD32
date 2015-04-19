@@ -9,27 +9,45 @@
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
-    	<div id="ingredients">
-		</div>
-		<div id="details">
-		</div>
-
+        <div id="forge">
+        	<div id="ingredients">
+    		</div>
+    		<div id="details">
+    		</div>
+            <div id="schematic">
+            </div>
+        </div>
+        <div id="adventure">
+            <div id="trials">
+            </div>
+            <div id="current_trial">
+            </div>
+        </div>
     	<script id="ingredient_list" type="text/x-handlebars-template">
 			<h3>Ingredients:</h3>
-    		{{#each ingredient}}
-    			<div class="ingredient">
-    				{{{ingredientImage this}}}
-    			</div>
-    		{{/each}}
+            <div style="height:400px; overflow:scroll;">
+        		{{#each ingredient}}
+                    {{#if key}}
+            			<div class="ingredient">
+            				{{{ingredientImage this}}}
+            			</div>
+                    {{/if}}
+        		{{/each}}
+            </div>
     	</script>
     	<script id="ingredient_detail" type="text/x-handlebars-template">
-    		
     		<h3>{{name}}</h3>
-
     		<p>{{description}}</p>
     	</script>
-    	<script id="forge_club" type="text/x-handlebars-template">
-    		{{body}}
+    	<script id="view_schematic" type="text/x-handlebars-template">
+            <div class="schematic" style="background-image: url('images/{{schematicImage}}');">
+                {{#each slot}}
+                    <div class="slot slot-{{key}}" ondrop="App.drop(event, '{{key}}');" ondragover="App.allowDrop(event)">
+                        {{name}}
+                    </div> 
+                {{/each}}
+                <button>Forge!</button>
+    		<div>
     	</script>
     	<script src="jquery-2.1.3.min.js"></script> 
         <script src="handlebars-v3.0.1.js"></script> 
