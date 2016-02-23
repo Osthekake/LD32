@@ -3,6 +3,16 @@ body{
 	color:white;
 }
 
+#modal{
+	position:absolute;
+	top:200;
+	left:300;
+	height:200;
+	width:400;
+	border: solid 5px blue;
+	display: none;
+}
+
 #ingredients{
 	padding: 5px;
 	width: 150px;
@@ -25,20 +35,39 @@ body{
 	width: 100%;
 }
 
-#schematic {
+.schematic {
 	position:absolute;
-	right: 0px;
+	left: 180px;
 	top: 0px;
+	margin-left: auto;
+    margin-right: auto;
 	border: solid 2px gray;
 	padding: 5px;
 	margin: 5px;
 	width: 400px;
 	height: 500px;
 }
-#schematic button{
+
+.schematic button{
 	display:inline;
 	position:absolute;
 	bottom: 0px;
+}
+
+.schematic-sword{
+	background: white url('images/schematic_sword.png');
+}
+.schematic-shiv{
+	background: white url('images/schematic_shiv.png');
+}
+.schematic-mace{
+	background: white url('images/schematic_mace.png');
+}
+.schematic-club{
+	background: white url('images/schematic_club.png');
+}
+.schematic-spear{
+	background: white url('images/schematic_spear.png');
 }
 
 .slot {
@@ -46,7 +75,7 @@ body{
 	width: 100px;
 	height: 100px;
 	position: absolute;
-	right:130px;
+	right:150px;
 }
 
 .slot-head {
