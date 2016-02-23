@@ -2,9 +2,17 @@ var App = {};
 
 App.template = {
 	'ingredients' : Handlebars.compile($("#ingredient_list").html()),
+	'image' : Handlebars.compile($("#ingredient_image").html()),
 	'details' : Handlebars.compile($("#ingredient_detail").html()),
 	'schematic' : Handlebars.compile($("#view_schematic").html()),
+	'bars' : Handlebars.compile($("#forge_result").html())
 };	 
+
+Handlebars.registerHelper('ingredientImage', function(ingredient) {
+	var context = ingredient;
+	context.id = context.key;
+	return App.template['image'](context);
+});
 
 App.data = {
 	properties:["sharp", "pointy", "reach", "hard", "heavy", "grip", "string", "absorbing", "sticky", "poison", "cold", "radioactive", "flammable"],
@@ -196,34 +204,113 @@ App.drag = function(ev) {
     ev.dataTransfer.setData("img", ev.target.outerHTML);
 };
 
-App.weapon = {};
-
 App.drop = function(ev, slot) {
     ev.preventDefault();
-    if(App.weapon[slot]){
-    	console.log("slot already filled");
-    	return;
-    }
-    var ingredient = ev.dataTransfer.getData("ingredient");
+    
+    var ingredientName = ev.dataTransfer.getData("ingredient");
+    var ingredient = App.data.ingredient[ingredientName];
+    //console.log(App.data.ingredient[ingredientName]);
     var image = ev.dataTransfer.getData("img");
-    ev.target.innerHTML = image;
-    console.log("slot: " + slot + ", ingredient: " + ingredient);
+    
+    console.log("slot: " + slot + ", ingredient: " + ingredientName);
     //App.weapon[slot] = App.data.ingredient[ingredient];
-    App.weapon[slot] = ingredient;
-    console.log(App.weapon);
+    //App.Schematic.weapon[slot] = ingredientName;
+    Schematic.useIngredient(slot, ingredient);
+    //console.log(Schematic.weapon);
 };
-
+var Ingredients = {
+	useIngredient: function(ingredient){
+		console.log("use ingredient " + ingredient);
+		var $ingredient = $('#ingredient-'+ingredient);
+	    $ingredient.addClass("ingredient-used");
+	    $ingredient.removeClass("ingredient-free");
+	    $('#'+ingredient).attr('draggable', false);
+	},
+	freeIngredient: function(ingredient){
+		console.log("free ingredient " + ingredient);
+		var $ingredient = $('#ingredient-'+ingredient);
+	    $ingredient.removeClass("ingredient-used");
+	    $ingredient.addClass("ingredient-free");
+	    $('#'+ingredient).attr('draggable', true);
+	}
+}
 
 App.viewIngredient = function(ingredientName){
 	var ingredient = App.data.ingredient[ingredientName];
 	//console.log(ingredient);
 	$('#details').html(App.template['details'](ingredient));
 };
+
+App.renderIngredients = function(){
+	$('#ingredients').append(App.template['ingredients'](App.data));	
+}
+
+App.render = function(){
+	App.renderIngredients();
+	Schematic.render();
+}
+var Schematic = {
+	forge: function(){
+		console.log("forging");
+		var stats = {};
+		var blueprint = App.data.schematic[Schematic.schematic].slot;
+		for(slot in Schematic.weapon){
+			var ingredientName = Schematic.weapon[slot];
+			var ingredient = App.data.ingredient[ingredientName].properties;
+			var schematicSlot = blueprint[slot].lethality;
+			for(i in schematicSlot){
+				var attribute = schematicSlot[i];
+				var value = ingredient[attribute];
+				//console.log(attribute +" of slot " + slot + " is " + value);
+				if(value){
+					if(stats[attribute]){
+						stats[attribute] += value * 10;
+					} else {
+						stats[attribute] = value * 10;
+					}
+				}
+			}
+		}
+		
+		console.log(stats);
+		var context = {stats:stats};
+		$("#result").empty();
+		$("#result").append(App.template['bars'](context));
+	},
+	useIngredient: function(slot, ingredient){
+		if(Schematic.weapon[slot]){
+			Schematic.freeSlot(slot);
+		}
+		//console.log(ingredient);
+		Schematic.weapon[slot] = ingredient.key;
+		ingredient.id = "used-"+ingredient.key;
+		$('#slot-'+slot).addClass("slot-taken");
+		$('#slot-'+slot).prepend(App.template['image'](ingredient));
+		Ingredients.useIngredient(ingredient.key);
+		Schematic.forge();
+	},
+	freeSlot: function(slot){
+		var ingredient = Schematic.weapon[slot];
+		console.log(ingredient);
+		Ingredients.freeIngredient(ingredient);
+		delete Schematic.weapon[slot];
+		$('#slot-'+slot).removeClass("slot-taken");
+		$("#used-"+ingredient).remove();
+		Schematic.forge();
+	},
+	load: function(schematicName){
+		console.log("Loading schematic " + schematicName);
+		Schematic.schematic = schematicName;
+		Schematic.data = App.data.schematic[schematicName];
+		Schematic.weapon = {};
+		Schematic.render();
+	},
+	render: function(){
+		console.log("rendering Schematic")
+		$('#schematic').empty();
+		$('#schematic').append(App.template['schematic'](Schematic.data));
+	}
+}
+Schematic.load('sword');
+App.render();
 App.viewIngredient();
-
-Handlebars.registerHelper('ingredientImage', function(ingredient) {
-  return "<img id='"+ingredient.key+"' src='images/"+ingredient.imagePath+"' onmouseover='App.viewIngredient(\""+ingredient.key+"\");' onmouseleave='App.viewIngredient();' ondragstart='App.drag(event)' draggable='true'></img>";
-});
-
-$('#ingredients').append(App.template['ingredients'](App.data));
-$('#schematic').append(App.template['schematic'](App.data.schematic['sword']));

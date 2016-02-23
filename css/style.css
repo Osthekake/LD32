@@ -1,103 +1,145 @@
-body{
-	background-color:black;
-	color:white;
+.ingredient {
+    display: block;
+    
+    -webkit-transition: all 0.5s linear;
+       -moz-transition: all 0.5s linear;
+        -ms-transition: all 0.5s linear;
+         -o-transition: all 0.5s linear;
+            transition: all 0.5s linear;
+}
+.ingredient-free:hover{
+	border: 1px solid blue;
+}
+.fullwidth{
+	width:100%;
+}
+.center {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}
+.ingredient-used{
+	opacity: 0.3;
+}
+.ingredient-free{
+
 }
 
-#modal{
-	position:absolute;
-	top:200;
-	left:300;
-	height:200;
-	width:400;
-	border: solid 5px blue;
-	display: none;
-}
-
-#ingredients{
-	padding: 5px;
-	width: 150px;
-}
-.ingredient img{
-	position:relative;
-	border: solid 5px orange;
-	margin: 5px;
-}
-.ingredient img:hover{
-	border: solid 5px lightblue;
-}
-
-#details {
-	position:absolute;
-	bottom: 0px;
-	border: solid 2px gray;
-	padding: 5px;
-	margin: 5px;
-	width: 100%;
-}
-
-.schematic {
-	position:absolute;
-	left: 180px;
-	top: 0px;
-	margin-left: auto;
-    margin-right: auto;
-	border: solid 2px gray;
-	padding: 5px;
-	margin: 5px;
-	width: 400px;
-	height: 500px;
-}
-
-.schematic button{
-	display:inline;
-	position:absolute;
-	bottom: 0px;
+.schematic{
+	background-size: 100% 100%;
+	color: white;
+	height: 526px;
+	width: 376px;
 }
 
 .schematic-sword{
-	background: white url('images/schematic_sword.png');
+	background-image: url('../images/schematic_sword.png');
 }
 .schematic-shiv{
-	background: white url('images/schematic_shiv.png');
+	background: white url('../images/schematic_shiv.png');
 }
 .schematic-mace{
-	background: white url('images/schematic_mace.png');
+	background: white url('../images/schematic_mace.png');
 }
 .schematic-club{
-	background: white url('images/schematic_club.png');
+	background: white url('../images/schematic_club.png');
 }
 .schematic-spear{
-	background: white url('images/schematic_spear.png');
+	background: white url('../images/schematic_spear.png');
+}
+
+.slots {
+	height: 500px;
 }
 
 .slot {
+	color: grey;
+	border-radius: 15px;
 	border: solid 2px gray;
 	width: 100px;
 	height: 100px;
-	position: absolute;
-	right:150px;
+	position: relative;
+	text-align: center;
+	vertical-align: text-bottom;
+}
+
+.slot-taken {
+	border-color: white;
+	color: white;
 }
 
 .slot-head {
-	top: 70px;
+	top: 0%;
+	margin: auto;
 }
 
 .slot-shaft {
-	top: 220px;	
+	top: 20%;
+	margin: auto;
 }
 
 .slot-blade {
-	top: 70px;
+	top: 20%;
+	margin: auto;
 }
 
 .slot-guard {
-	top: 220px;	
+	top: 30%;
+	margin: auto;
 }
 
 .slot-chain {
-	top: 220px;	
+	margin: auto;
 }
 
 .slot-grip {
-	top: 370px;	
+	top: 35%;
+	margin: auto;
+}
+
+
+html {
+	position: relative;
+	min-height: 100%;
+}
+body {
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
+}
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	background-color: #f5f5f5;
+}
+.container {
+	width: auto;
+	max-width: 680px;
+	padding: 0 15px;
+}
+.container .text-muted {
+	margin: 20px 0;
+}
+
+.equal, .equal > div[class*='col-'] {  
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex:1 0 auto;
+}
+.quarter{
+  width:50%;
+  height:100%;
+  float:left;
+}
+#bars {
+	width:250px;
+}
+.bar {
+	background: blue;
+	border: solid;
 }

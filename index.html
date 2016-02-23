@@ -12,11 +12,24 @@
     <body>
         <div id="modal"></div>
         <div id="forge">
-        	<div id="ingredients">
-    		</div>
-    		<div id="details">
-    		</div>
-            <div id="schematic">
+            <div class="row equal">
+
+                <div id="ingredients" class="col-xs-6 col-sm-3">
+                </div>
+
+                <div id="schematic" class="col-xs-6 col-sm-3">
+                </div>
+            </div>
+            <div class="row equal">
+                <div class="col-xs-6 col-sm-3">
+                    <button onclick="Schematic.load('sword');">Sword</button>
+                    <button onclick="Schematic.load('club');">Club</button>
+                    <button onclick="Schematic.load('mace');">Mace</button>
+                    <button onclick="Schematic.load('shiv');">Shiv</button>
+                    <button onclick="Schematic.load('spear');">Spear</button>
+                </div>
+                <div id="result" class="col-xs-6 col-sm-3">
+                </div> 
             </div>
         </div>
         <div id="adventure">
@@ -25,40 +38,84 @@
             <div id="current_trial">
             </div>
         </div>
-    	<script id="ingredient_list" type="text/x-handlebars-template">
-			<div style="height:500px; overflow:scroll; border: solid 2px gray;">
-                <h3>Ingredients</h3>
-        		{{#each ingredient}}
-                    {{#if key}}
-            			<div class="ingredient">
-            				{{{ingredientImage this}}}
-            			</div>
-                    {{/if}}
-        		{{/each}}
+    
+        <footer class="footer">
+            <div class="container">
+                <p id="details" class="text-muted"></p>
             </div>
-    	</script>
-    	<script id="ingredient_detail" type="text/x-handlebars-template">
-    		<h3>{{name}}</h3>
-    		<p>{{description}}</p>
-    	</script>
-    	<script id="view_schematic" type="text/x-handlebars-template">
-            <div class="schematic schematic-{{key}}">
-                <h3>{{name}}</h3>
-                {{#each slot}}
-                    <div class="slot slot-{{key}}" ondrop="App.drop(event, '{{key}}');" ondragover="App.allowDrop(event)">
-                        {{name}}
-                    </div> 
-                {{/each}}
-                <button>Forge!</button>
-    		<div>
-    	</script>
-        <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script> 
-        <script type="text/javascript" src="js/bootstrap.js" ></script>
-        <script type="text/javascript" src="js/handlebars-v3.0.1.js"></script> 
-        <script type="text/javascript" src="js/ingredient.js"></script>
-        <script type="text/javascript" src="js/app.js"></script> 
-        <script>
-
-        </script>
+        </footer>
+    	
     </body>
+  
+    <script id="ingredient_list" type="text/x-handlebars-template">
+        <div class="fullwidth container">
+            <h3>Ingredients</h3>
+            <div class="well">
+                {{#each ingredient}}
+                    {{#if key}}
+                        <span id="ingredient-{{key}}" class="img-thumbnail ingredient ingredient-free">
+                            {{{ingredientImage this}}}
+                        </span>
+                    {{/if}}
+                {{/each}}
+            </div> 
+        </div>
+    </script>
+    <script id="ingredient_image" type="text/x-handlebars-template">
+        <img
+            id='{{id}}'
+            src='images/{{imagePath}}'
+            onmouseover='App.viewIngredient("{{key}}");' 
+            onmouseleave='App.viewIngredient();' 
+            ondragstart='App.drag(event)' 
+            draggable='true'>
+        </img>
+    </script>
+    <script id="ingredient_detail" type="text/x-handlebars-template">
+        <strong>{{name}}</strong>
+        <i>{{description}}</i>
+    </script>
+    <script id="view_schematic" type="text/x-handlebars-template">
+        <div class="container">
+            <h3>Schematic <small>{{name}}</small></h3>
+            <div class="well fullwidth schematic schematic-{{key}}">
+                <div class="slots center">
+                    {{#each slot}}
+                        <div 
+                            id="slot-{{key}}"
+                            class="slot slot-{{key}}" 
+                            ondrop="App.drop(event, '{{key}}');" 
+                            ondragover="App.allowDrop(event)" 
+                            onclick="Schematic.freeSlot('{{key}}');">
+                            <strong>{{name}}</strong>
+                        </div> 
+                    {{/each}}
+                </div>
+                <button onclick="Schematic.forge();">Forge!</button>
+            <div>
+        </div>
+    </script>
+
+    <script id="forge_result" type="text/x-handlebars-template">
+        <div class="container">
+            <div id="bars" class="well">
+                <h4>Weapon stats</h4>
+                {{#each stats as |value key|}}
+                    <div class="progress">
+                        <div class="progress-bar" style="width:{{value}}%">
+                            {{key}}
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div> 
+    </script>
+    <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script> 
+    <script type="text/javascript" src="js/bootstrap.js" ></script>
+    <script type="text/javascript" src="js/handlebars-v3.0.1.js"></script> 
+    <script type="text/javascript" src="js/ingredient.js"></script>
+    <script type="text/javascript" src="js/app.js"></script> 
+    <script>
+
+    </script>
 </html>
